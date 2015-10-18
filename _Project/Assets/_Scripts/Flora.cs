@@ -1,4 +1,4 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ public class Flora : MonoBehaviour {
     public float maxVelocity = 10;    
 
     public float minDistancePoints;
+    public float distanceToMovePoint = 0.6f;      
 	public bool applySmoothing = true;
     public float smoothLength = 4;    
 
@@ -20,8 +21,11 @@ public class Flora : MonoBehaviour {
 	public float sinusoidalMag = .25f;
 	public float sinusoidalSlip = .25f;
 
+    public bool moving = false;
 
-    public bool moving = false;    
+    public GameObject debugCirclePrefab;
+    public bool debug;    
+
 
     LineRenderer stemPathRenderer;
 
@@ -31,22 +35,16 @@ public class Flora : MonoBehaviour {
     int currentPoint = 0;                    // Index of the point i'm currently moving to on the path
 
     Vector2 target;
-    Rigidbody rigidbodyComponent;
+    Rigidbody2D rigidbodyComponent;
     
-    Vector3 startPosition;
-    
-    public float chanceForRoot;    
-
-	
-    public List<Vector2> customPath = new List<Vector2>();
-    
+    Vector3 startPosition;    
 
 
 
     void Awake() {
 
         stemPathRenderer = GetComponent<LineRenderer>();
-        rigidbodyComponent = GetComponent<Rigidbody>();
+        rigidbodyComponent = GetComponent<Rigidbody2D>();
         stemPathPoints = new List<Vector2>();
         stemPathPoints.Add(transform.position);
     }
@@ -88,10 +86,7 @@ public class Flora : MonoBehaviour {
 
         // Reset these values since otherwise the movment goes crazy        
         rigidbodyComponent.velocity = Vector3.zero;
-
-        StartCoroutine("slowlyIncreaseRotation");
-        minDistancePoints = 0.06f;          
-        
+                
         // Clean up the path list a bit to make the transition from animation to path movement smoother
         int closestPointIndex = 0;
         int firstFarAwayPoint = 0;
@@ -185,22 +180,19 @@ public class Flora : MonoBehaviour {
         target = movementPathPoints[currentPoint];
         moving = true;
 
-        // DEBUG : shows all points in the path
-        //foreach (Vector2 point in path) {
+        if (debug) {
+            foreach (Vector2 point in movementPathPoints) {
 
-        //    Instantiate(circle, point, Quaternion.identity);
-        //}
+                Instantiate(debugCirclePrefab, point, Quaternion.identity);
+            }
+        }
     }
-
-    public float distanceToMovePoint = 0.6f;      
+    
     // Called every tick while moving
     void move() { 
 
         // Check distance to target, move to the next point if close enough
         if (Vector2.Distance(transform.position, target) < distanceToMovePoint && currentPoint != movementPathPoints.Count - 1) {
-
-            StopCoroutine("pathTimeout");
-            StartCoroutine("pathTimeout");
 
             currentPoint++;
             target = movementPathPoints[currentPoint];
@@ -222,16 +214,8 @@ public class Flora : MonoBehaviour {
         // Rotate
         transform.rotation = Quaternion.Slerp(transform.rotation, rotationTowardsTarget, Time.deltaTime * turnSpeed);
 
-        // Add force
+        // Add force        
         rigidbodyComponent.AddForce(new Vector2(-transform.right.y * speed, transform.right.x * speed) * Time.deltaTime);
-
-        // Check for max velocity
-        if (rigidbodyComponent.velocity.magnitude > maxVelocity) {
-            rigidbodyComponent.velocity = Vector2.ClampMagnitude(rigidbodyComponent.velocity, maxVelocity);
-        }
-        else if (rigidbodyComponent.velocity.magnitude < -maxVelocity) {
-            rigidbodyComponent.velocity = Vector2.ClampMagnitude(rigidbodyComponent.velocity, -maxVelocity);
-        }
     }
 
 }

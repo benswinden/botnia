@@ -99,6 +99,9 @@ public class Manager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();  
         }
+        if (Input.GetKeyUp(KeyCode.R)) {
+            Application.LoadLevel(0);
+        }
     }
 
     //Sleep
