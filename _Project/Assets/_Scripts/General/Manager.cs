@@ -65,6 +65,34 @@ public class Manager : MonoBehaviour {
 
 	#endregion
 
+    public void smoothPoint(List<Vector2> points, float smoothLength) {
+
+        if (points.Count < smoothLength + 5) {
+            return;
+        }
+
+        for (var i = 0; i < smoothLength; ++i) {
+
+            var j = points.Count - i - 2;
+            var p0 = points[j];
+            var p1 = points[j + 1];
+            var a = 0.7f;
+            var p = new Vector2(p0.x * (1 - a) + p1.x * a, p0.y * (1 - a) + p1.y * a);
+
+            points[j] = p;
+        }
+    }
+
+    public void updateLine(LineRenderer line, List<Vector2> points) {
+
+        line.SetVertexCount(points.Count - 1);
+
+        for (int pointIndex = 0; pointIndex < points.Count - 1; pointIndex++) {
+
+            line.SetPosition(pointIndex, points[pointIndex]);
+        }
+    }  
+
     void defaultControls() {
 
         //Quit
