@@ -1,0 +1,5 @@
+Editorial symbols used in the transcription:
+[some text]	'some text' is an editorial insertion
+[some text]	'some text' is the conjectured reading of an ambiguous word or passage
+[some text]	'some text' is a description of a word or passage that cannot be transcribed
+< >	word(s) destroyed 
