@@ -12,9 +12,12 @@ function getStringFromFile(filePath) {
 
         // Callback
         if( data != null) {
-            
-            console.log("Data returned");
-            $('body').text(data);
+
+            console.log("Data returned   " + data.length);
+
+            for (var i=0;i<data.length;i++){
+                $('body').append(data[i] + "</br>");
+            }
         }
     });
 }

@@ -1,6 +1,5 @@
 var express = require('express');
 var exphbs  = require('express-handlebars');
-var fs = require('fs');
 var app = express();
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -17,13 +16,21 @@ app.get('/', function (req, res) {
 app.post('/getStringFromFile',function(req,res){
 
     // var filePath = req.body.filePath;
-    fs.readFile(__dirname + '/public/source/text.txt', 'utf8', function (err,data) {
+     var filePath = __dirname + '/public/source/text.txt'
+     var lines = [];
 
-      if (err) {
-        return console.log(err);
-      }
+    var rl = require('readline').createInterface({
+      input: require('fs').createReadStream(filePath)
+    });
 
-      res.end(data);
+    rl.on('line', function (line) {
+        console.log(line);
+        lines.push(line);
+    });
+
+    rl.on('close', function() {
+        console.log(lines.length);
+        res.send(lines);
     });
 });
 
