@@ -1,23 +1,46 @@
 
 $(document).ready(function(){
 
-    getStringFromFile("/source/test.txt");
+    // readFromFile('/public/source/Darwin_SelfFertilisation.txt');
+    readFromFile('/public/source/Darwin_Transmutation.txt');
 });
 
 
-function getStringFromFile(filePath) {
+function readFromFile(filePath, callback) {
+
+    var stringFromFile;
 
     // Retrieve data
-    $.post("/getStringFromFile", { filePath: filePath }, function(data){
+    $.post("/getStringFromFile", {filePath:filePath}, function(data){
 
         // Callback
         if( data != null) {
 
-            console.log("Data returned   " + data.length);
+            for (var i = 0; i < data.length; i++){
 
-            for (var i=0;i<data.length;i++){
-                $('body').append(data[i] + "</br>");
+                stringFromFile += data[i];
             }
+
+            createChain(stringFromFile);
         }
     });
+
+}
+
+function createChain(text) {
+
+    var m;
+
+    // x = new markov(text, type, regex);
+    m = new markov(text, "string", /([.^\w]+ ){2}/g); //sherlock holmes corpus
+
+    var markovString = "";
+    var outString = "";
+
+    for (var i = 0; i < 5; i++) {
+
+      markovString += "<p>" + m.gen(20) + "</p>";
+    }
+
+    $('body').append(markovString);
 }
