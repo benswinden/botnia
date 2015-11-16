@@ -1,6 +1,8 @@
 var express = require('express');
 var exphbs  = require('express-handlebars');
 var bodyParser = require("body-parser");
+var gingerbread = require('gingerbread');
+
 var app = express();
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -34,6 +36,29 @@ app.post('/getStringFromFile',function(req,res){
 
     rl.on('close', function() {
         res.send(lines);
+    });
+});
+
+app.post('/grammarCheck', function (req,res){
+
+    var text = req.body.text;
+
+    gingerbread(text, function (error, text, result, corrections) {
+
+        if (error == null) {
+            console.log("\nText: " + text);
+            console.log("\nResult: " + result);
+
+            // Log corrections
+            for (var i=0;i<corrections.length;i++) {
+                console.log("\nCorrection: " + i + ": " + JSON.stringify(corrections[i]));
+            }
+
+            res.send(result);
+        }
+        else {
+            console.log("Error: " + error);
+        }
     });
 });
 
