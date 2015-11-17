@@ -3,3 +3,8 @@ html, body {
     padding: 0;
     height: 100%;
 }
+
+p {
+  padding: 50px 50px 0 50px;  
+  width:  700px;
+}

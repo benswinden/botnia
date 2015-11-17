@@ -25,12 +25,20 @@ app.post('/getStringFromFile',function(req,res){
 
     filePath = __dirname + filePath;
     var lines = [];
+    var readingDescription = false;
 
     var rl = require('readline').createInterface({
       input: require('fs').createReadStream(filePath)
     });
 
     rl.on('line', function (line) {
+
+      if (readingDescription == false && line.substring(0, 2) == '/*')
+        readingDescription = true;
+      else if (readingDescription == true && line.substring(0, 2) == '*/')
+        readingDescription = false;
+
+      if (readingDescription == false)
         lines.push(line);
     });
 
