@@ -3,13 +3,13 @@
  /./g - every letter
  /../g - every two letter
  /[.,?"();\-!':—^\w]+ /g - every word
- /([.,?"();\-!':—^\w]+ ){2}/g - every two words 
+ /([.,?"();\-!':—^\w]+ ){2}/g - every two words
 
-*/ 
+*/
 var markov = function(input, type, reg) {
   var data;
   if (type == "string") {
-    data = {};
+    data = {};    
     s = input.match(reg);
     for (var i = 0; i < s.length-1; i++) {
       if(s[i] in data) {
@@ -27,7 +27,7 @@ var markov = function(input, type, reg) {
     data = eval("(" + input + ")");
   }
   this.data = data;
-  
+
   var gen = function(l) {
     var sanitycheck = false;
     var out = new Array();
@@ -50,7 +50,7 @@ var markov = function(input, type, reg) {
     return out.join("");
   }
   this.gen = gen;
-  
+
   var findRandomProperty = function(o) {
     l1 = 0;
     for (i in o) {
@@ -65,7 +65,7 @@ var markov = function(input, type, reg) {
       }
     }
   }
-  
+
   var expand = function(obj) {
     oArray = new Array();
     for (var prop in obj) {
@@ -75,7 +75,7 @@ var markov = function(input, type, reg) {
     }
     return oArray;
   }
-  
+
   var getJson = function() {
     if (typeof JSON === "object") {
       return JSON.stringify(data);
