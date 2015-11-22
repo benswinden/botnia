@@ -105,6 +105,9 @@ function checkGrammar(text, callback) {
 
 function checkForPeriod(string)  {
 
+    // Check for a space at the extended
+    if (string.charAt(string.length - 1) == ' ') string = string.substring(0, string.length - 1);
+
     if (string.charAt(string.length - 1) != '.') string += '.';
     return string;
 }
