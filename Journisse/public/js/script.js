@@ -15,16 +15,18 @@ $(document).ready(function(){
     $('#name').append(currentPlantName);
 
     // Description
-    readFromFile('/public/source/Plant_Descriptions.txt', createChain, '#description', getRandomInt(16,25), getRandomInt(4,7));
+    readFromFile('/public/source/Plant_Descriptions.txt', createChain, '#description', getRandomInt(16,23), getRandomInt(5,7));
 
     // Morphology
-    readFromFile('/public/source/Plant_Morphology.txt', createChain, '#morphology', getRandomInt(10,15),  getRandomInt(4,7));
+    readFromFile('/public/source/Plant_Morphology.txt', createChain, '#morphology', getRandomInt(10,15),  getRandomInt(5,7));
 
     // Ecology
-    readFromFile('/public/source/Plant_Ecology.txt', createChain, '#ecology', getRandomInt(7,12), getRandomInt(3,7));
+    readFromFile('/public/source/Plant_Ecology.txt', createChain, '#ecology', getRandomInt(7,12), getRandomInt(4,7));
 
     // Miscellaneous
-    readFromFile('/public/source/Plant_General.txt', createChain, '#misc', getRandomInt(5,30), getRandomInt(3,7));
+    // readFromFile('/public/source/Plant_General.txt', createChain, '#misc', getRandomInt(5,25), getRandomInt(4,7));
+    // readFromFile('/public/source/Darwin_Transmutation.txt', createChain, '#misc', getRandomInt(15,25), getRandomInt(5,7));
+    readFromFile('/public/source/Darwin_SelfFertilisation.txt', createChain, '#misc', getRandomInt(15,25), getRandomInt(5,7));
 });
 
 
